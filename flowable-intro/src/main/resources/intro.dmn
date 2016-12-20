@@ -1,0 +1,28 @@
+<definitions xmlns="http://www.omg.org/spec/DMN/20151130" id="full" name="Full" namespace="http://www.activiti.org/dmn">
+  <decision id="intro" name="Intro Decision">
+    <decisionTable id="introDecisionTable" hitPolicy="FIRST">
+      <input>
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text>name</text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="Output variable" name="resultVariable" typeRef="string"></output>
+      <rule>
+        <inputEntry id="inputEntry1">
+          <text>== 'Flowable'</text>
+        </inputEntry>
+        <outputEntry id="outputEntry1">
+          <text>'is cool'</text>
+        </outputEntry>
+      </rule>
+      <rule>
+        <inputEntry id="inputEntry2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="outputEntry2">
+          <text>'really?'</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

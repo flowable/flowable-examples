@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions id="dmnExample" 
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:flowable="http://flowable.org/bpmn"
+             targetNamespace="http://flowable.org/examples">
+  
+  <process id="dmn">
+  
+    <startEvent id="start"/>
+    
+    <sequenceFlow id="flow1" sourceRef="start" targetRef="dmnTask" />
+
+    <serviceTask id="dmnTask" flowable:type="dmn">
+    	<extensionElements>
+        	<flowable:field name="decisionTableReferenceKey">
+          		<flowable:string><![CDATA[intro]]></flowable:string>
+        	</flowable:field>
+      	</extensionElements>
+    </serviceTask>
+    
+    <sequenceFlow id="flow2" sourceRef="dmnTask" targetRef="end" />
+    
+    <endEvent id="end" />
+    
+  </process>
+
+</definitions>
