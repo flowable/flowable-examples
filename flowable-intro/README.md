@@ -1,0 +1,1 @@
+See this [blogpost](http://bpmn20inaction.blogspot.com/2016/12/coding-introduction-with-flowable-6.html) for more details.

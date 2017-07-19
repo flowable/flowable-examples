@@ -1,26 +1,26 @@
-<definitions xmlns="http://www.omg.org/spec/DMN/20151130" id="full" name="Full" namespace="http://www.activiti.org/dmn">
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101" id="definition_81dccece-6c73-11e7-86bd-acde48001122" name="Intro Decision" namespace="http://www.flowable.org/dmn">
   <decision id="intro" name="Intro Decision">
-    <decisionTable id="introDecisionTable" hitPolicy="FIRST">
-      <input>
-        <inputExpression id="inputExpression1" typeRef="string">
+    <decisionTable id="decisionTable_81dccece-6c73-11e7-86bd-acde48001122" hitPolicy="FIRST">
+      <input label="Name">
+        <inputExpression id="inputExpression_3" typeRef="string">
           <text>name</text>
         </inputExpression>
       </input>
-      <output id="output1" label="Output variable" name="resultVariable" typeRef="string"></output>
+      <output id="outputExpression_2" label="Output Variable" name="resultVariable" typeRef="string"></output>
       <rule>
-        <inputEntry id="inputEntry1">
-          <text>== 'Flowable'</text>
+        <inputEntry id="inputEntry_3_1">
+          <text><![CDATA["Flowable"]]></text>
         </inputEntry>
-        <outputEntry id="outputEntry1">
-          <text>'is cool'</text>
+        <outputEntry id="outputEntry_2_1">
+          <text><![CDATA["is cool"]]></text>
         </outputEntry>
       </rule>
       <rule>
-        <inputEntry id="inputEntry2">
-          <text></text>
+        <inputEntry id="inputEntry_3_2">
+          <text><![CDATA[-]]></text>
         </inputEntry>
-        <outputEntry id="outputEntry2">
-          <text>'really?'</text>
+        <outputEntry id="outputEntry_2_2">
+          <text><![CDATA["really?"]]></text>
         </outputEntry>
       </rule>
     </decisionTable>
