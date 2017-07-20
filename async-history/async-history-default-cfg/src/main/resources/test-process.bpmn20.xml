@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:flowable="http://flowable.org/bpmn" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="http://www.omg.org/spec/BPMN/20100524/MODEL">
+
+    <process id="testProcess">
+
+        <startEvent id="theStart" name="Start" flowable:initiator="initiator" />
+        <sequenceFlow sourceRef="theStart" targetRef="userTask01" />
+
+        <userTask id="userTask01" name="User Task 01" flowable:assignee="${initiator}" />
+        <sequenceFlow sourceRef="userTask01" targetRef="theFork" />
+
+        <parallelGateway id="theFork" />
+        <sequenceFlow sourceRef="theFork" targetRef="userTask02" />
+        <sequenceFlow sourceRef="theFork" targetRef="userTask03" />
+        <sequenceFlow sourceRef="theFork" targetRef="nestedFork" />
+
+        <userTask id="userTask02" name="User Task 02" flowable:assignee="${assignee02}" />
+        <sequenceFlow sourceRef="userTask02" targetRef="serviceTask01" />
+
+        <serviceTask id="serviceTask01" flowable:class="org.flowable.delegate.DummyServiceTask" />
+        <sequenceFlow sourceRef="serviceTask01" targetRef="serviceTask02" />
+
+        <serviceTask id="serviceTask02" flowable:class="org.flowable.delegate.DummyServiceTask" />
+        <sequenceFlow sourceRef="serviceTask02" targetRef="serviceTask03" />
+
+        <serviceTask id="serviceTask03" flowable:class="org.flowable.delegate.DummyServiceTask" />
+        <sequenceFlow sourceRef="serviceTask03" targetRef="theJoin" />
+
+        <userTask id="userTask03" name="User Task 03" flowable:assignee="${assignee03}" />
+        <sequenceFlow sourceRef="userTask03" targetRef="theJoin" />
+
+        <parallelGateway id="nestedFork" />
+        <sequenceFlow sourceRef="nestedFork" targetRef="userTask04" />
+        <sequenceFlow sourceRef="nestedFork" targetRef="userTask05" />
+        <sequenceFlow sourceRef="nestedFork" targetRef="userTask06" />
+        <sequenceFlow sourceRef="nestedFork" targetRef="userTask07" />
+        <sequenceFlow sourceRef="nestedFork" targetRef="userTask08" />
+
+        <userTask id="userTask04" name="User Task 04" flowable:assignee="${assignee04}" />
+        <sequenceFlow sourceRef="userTask04" targetRef="nestedJoin" />
+
+        <userTask id="userTask05" name="User Task 05" flowable:assignee="${assignee05}" />
+        <sequenceFlow sourceRef="userTask05" targetRef="nestedJoin" />
+
+        <userTask id="userTask06" name="User Task 06" flowable:assignee="${assignee06}" />
+        <sequenceFlow sourceRef="userTask06" targetRef="nestedJoin" />
+
+        <userTask id="userTask07" name="User Task 07" flowable:assignee="${assignee07}" />
+        <sequenceFlow sourceRef="userTask07" targetRef="nestedJoin" />
+
+        <userTask id="userTask08" name="User Task 08" flowable:assignee="${assignee08}" />
+        <sequenceFlow sourceRef="userTask08" targetRef="nestedJoin" />
+
+        <parallelGateway id="nestedJoin" />
+        <sequenceFlow sourceRef="nestedJoin" targetRef="userTask09" />
+
+        <userTask id="userTask09" name="User Task 09" flowable:assignee="${assignee09}" />
+        <sequenceFlow sourceRef="userTask09" targetRef="theJoin" />
+
+        <parallelGateway id="theJoin" />
+        <sequenceFlow sourceRef="theJoin" targetRef="serviceTask04" />
+
+        <serviceTask id="serviceTask04" flowable:class="org.flowable.delegate.DummyServiceTask" />
+        <sequenceFlow sourceRef="serviceTask04" targetRef="serviceTask05" />
+
+        <serviceTask id="serviceTask05" flowable:class="org.flowable.delegate.DummyServiceTask" />
+        <sequenceFlow sourceRef="serviceTask05" targetRef="serviceTask06" />
+
+        <serviceTask id="serviceTask06" flowable:class="org.flowable.delegate.DummyServiceTask" />
+        <sequenceFlow sourceRef="serviceTask06" targetRef="theEnd" />
+
+        <endEvent id="theEnd" name="End" />
+
+    </process>
+
+</definitions>

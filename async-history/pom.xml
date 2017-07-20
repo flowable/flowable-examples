@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>Flowable Async History Examples</name>
+	<groupId>org.flowable.examples</groupId>
+	<artifactId>flowable-async-history-examples</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+
+	<properties>
+		<flowable.version>6.1.1-SNAPSHOT</flowable.version>
+		<spring.version>4.3.9.RELEASE</spring.version>
+	</properties>
+
+	<modules>
+		<module>async-history-default-cfg</module>
+		<module>async-history-jms-inmem-cfg</module>
+		<module>async-history-jms-cfg</module>
+		<module>async-history-jms-jta</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+	</dependencies>
+
+</project>
