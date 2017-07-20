@@ -2,22 +2,22 @@
 
 ### Description
 
-This example builds upon the knowledge gained from the [async history + JMS message queue configuration example](../async-history-jms-cfg). 
+This example builds on the knowledge gained from the [async history + JMS message queue configuration example](../async-history-jms-cfg). 
 
-The setup of this example looks as follows:
+The setup of it looks like the following:
 
 ![Async History + JMS + JTA](src/main/resources/diagrams/async-history-jms-jta.png "Async History + JMS + JTA")
 
-The main difference with the previous example is that the historical data is now send to the message queue as a whole. In the non-JTA example, the job data was inserted and then a message was sent to the message queue with only the database id. The message listener would then fetch the data and process it.
+The main difference with the previous example is that the historical data is now sent to the Message Queue as a whole. In the non-JTA example, the job data is inserted and then a message sent to the Message Queue with only the database ID. The message listener then fetches the data and processes it.
 
-Of course, when nothing is stored in the database, it is important that no data gets lost in the process (message queue crashed, network error, etc.) and as such we need to make storing the runtime data and sending the historical data part of the same transaction. The typical way to do this is using JTA.
+Of course, when nothing is stored in the database, it is important that no data gets lost (Message Queue crashed, network error, and so on) and as such, we need to make storing the runtime data and sending the historical data part of the same transaction. The typical way to do this is using JTA.
 
-In this example, we'll also demonstrate how to add a custom listener that does something else than storing the data in the FLowable historical database tables.
+This example also demonstrates how to add a custom listener that does something else instead of storing the data in the FLowable historical database tables.
 
 
 ### Dependencies
 
-As we're going to use JTA here, we'll need to add quite a few dependencies to the previous example with JMS. We've opted for the Atomikos (https://www.atomikos.com/) library as JTA provider. See the [pom.xml](pom.xml) for all dependencies.
+As JTA is going to be used here, quite a few dependencies need to be added to the previous JMS example. For this example, the Atomikos (https://www.atomikos.com/) library is used as the JTA provider. See the [pom.xml](pom.xml) for all dependencies.
 
 ```xml
 <dependency>
@@ -49,11 +49,11 @@ As we're going to use JTA here, we'll need to add quite a few dependencies to th
 
 ### Code 
  
-The [example process](src/main/resources/test-process.bpmn20.xml) and [code to run it](src/main/java/org/flowable/Example.java) is exactly the same as in the other async history examples. 
+The [example process](src/main/resources/test-process.bpmn20.xml) and [code to run it](src/main/java/org/flowable/Example.java) is exactly the same as in the other Async History examples. 
  
-The configuration class is where the changes are and can be found at [src/main/java/org/flowable/Configuration](src/main/java/org/flowable/Configuration.java).
+The configuration class is where the changes are needed, and can be found at [src/main/java/org/flowable/Configuration](src/main/java/org/flowable/Configuration.java).
  
-Setting up JTA is not trivial. First of all the datasource needs to be JTA-enabled. Note we're using MySQL now, instead H2:
+Setting up JTA is not trivial. First of all, the datasource needs to be JTA-enabled. Note this example uses MySQL now, instead of H2:
 
 ```java
 @Bean(initMethod = "init", destroyMethod = "close")
@@ -76,7 +76,7 @@ public DataSource dataSource() {
 }
 ``` 
 
-Second, we need to set up a JTA transaction manager (this is well-documented in the Atomikos documentation):
+Second, a JTA transaction manager needs to be set up (this is described well in the Atomikos documentation):
 
 ```java
 @Bean(initMethod = "init", destroyMethod = "shutdownForce")
@@ -115,7 +115,7 @@ public UserTransaction userTransaction() {
 }
 ```
 
-And lastly, the JMS connections also must partake in the JTA transactions:
+Lastly, the JMS connections also must participate in the JTA transactions:
 
 ```java
 @Bean(initMethod = "init", destroyMethod = "close")
@@ -136,9 +136,9 @@ public ConnectionFactory connectionFactory() {
 }
 ```    
 
-Now we've got the datasource and the JMS message queue happily playing along using a JTA transaction.
+Now, the datasource and the JMS message queue are happily playing along using a JTA transaction.
 
-The last bit to connecting it together is to set the _MessageBasedJobManager_ in the process engine configuration, like in the normal JMS example. We're also setting a custom _AsyncHistoryListener_:
+The last bit needed to connect it together, is to set the _MessageBasedJobManager_ in the Process Engine configuration, as in the normal JMS example. A custom _AsyncHistoryListener_ is also set:
 
 ```java
 @Bean
@@ -173,7 +173,7 @@ public AsyncHistoryListener jmsAsyncHistoryListener() {
 }
 ```
 
-The custom _AsyncHistoryListener_ replaces the default implementation, which inserts a history job in the database table. Here, we don't need that, as we're using JTA and we're sure the data can't get lost. So the _JmsAsyncHIstoryListener_ will simply send the json to the message queue, serialized as JSON:
+The custom _AsyncHistoryListener_ replaces the default implementation, which inserts a history job in the database table. Here, this is not necessary, as JTA is being and there's confidence the data can't get lost. So, the _JmsAsyncHIstoryListener_ will simply send the history data to the Message Queue, serialized as JSON:
 
 ```java
 public class JmsAsyncHistoryListener implements AsyncHistoryListener {
@@ -231,5 +231,5 @@ public class ExampleJmsListener implements javax.jms.MessageListener {
 
 ```
 
-here we simply output the message that's received. However, in practice, the data can be stored in an external data store for any purpose necessary.
+Here, the message that's received is simply printed out. However, in practice, the data can be stored in an external data store for any purpose necessary.
 
