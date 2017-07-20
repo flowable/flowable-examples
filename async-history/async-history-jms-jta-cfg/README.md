@@ -2,7 +2,7 @@
 
 ### Description
 
-This example builds upon the knowledge gained from the [async history + JMS message queue configuration example](../flowable-async-history-jms-cfg). 
+This example builds upon the knowledge gained from the [async history + JMS message queue configuration example](../async-history-jms-cfg). 
 
 The setup of this example looks as follows:
 
@@ -49,7 +49,7 @@ As we're going to use JTA here, we'll need to add quite a few dependencies to th
 
 ### Code 
  
-The [example process](src/main/resources/test-process.bpmn20.xml) and [code to run it](src/main/java/org/flowable/Example) is exactly the same as in the other async history examples. 
+The [example process](src/main/resources/test-process.bpmn20.xml) and [code to run it](src/main/java/org/flowable/Example.java) is exactly the same as in the other async history examples. 
  
 The configuration class is where the changes are and can be found at [src/main/java/org/flowable/Configuration](src/main/java/org/flowable/Configuration.java).
  

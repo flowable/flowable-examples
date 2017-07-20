@@ -2,18 +2,18 @@
 
 ### Description
 
-This example builds upon the knowledge gained from the [default async history configuration example](../flowable-async-history-default-cfg). 
+This example builds upon the knowledge gained from the [default async history configuration example](../async-history-default-cfg). 
 
 In this example, the default async history setup that uses threadpools and database polling to do it's work is replaced by a message queue solution. In this particular example we'll use JMS as transport protocol, but any protocol works. Let's have a look at the various components of this setup:
 
-![Async History with message queue](src/main/resources/diagrams/async-history-message-queue-default "Async History with message queue")
+![Async History with message queue](src/main/resources/diagrams/async-history-message-queue-default.png "Async History with message queue")
 
 * Instead of polling the database, a message is now send to a message queue that a historical job is ready.
 * The history job data is inserted in the same transaction  as the runtime data. This is *very important* as we need to have transactional guarantees about the history data not being out of sync with the runtime data.
 * Flowable provides an example message listener implementation which listen on the message queue for new messages,fetch the job data, process and store it in the historical tables.
 * In case the data should not be stored in the history tables of Flowable, it's easy to use the same mechanism to store the data in an external data store (like MongoDb, Elasticsearch, another relational database, etc.)
 
-![Async History with message queue 2](src/main/resources/diagrams/async-history-message-queue-custom "Async History with message queue 2")
+![Async History with message queue 2](src/main/resources/diagrams/async-history-message-queue-custom.png "Async History with message queue 2")
 
 Note that in this architecture, the message listeners do not have run on the same server as the process engine.
 
@@ -43,7 +43,7 @@ The second dependency includes the default JMS message listener implementations 
  ### Code 
  
  
-The [example process](src/main/resources/test-process.bpmn20.xml) and [code to run it](src/main/java/org/flowable/Example) is exactly the same as in the default example. 
+The [example process](src/main/resources/test-process.bpmn20.xml) and [code to run it](src/main/java/org/flowable/Example.java) is exactly the same as in the default example. 
  
 The configuration class is where the changes are and can be found at [src/main/java/org/flowable/Configuration](src/main/java/org/flowable/Configuration.java).
  
