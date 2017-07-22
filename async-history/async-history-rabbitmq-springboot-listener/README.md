@@ -8,15 +8,15 @@ The setup described in that example looks as follows:
 
 ![Async History with RabbitMQ](../async-history-rabbitmq-cfg/src/main/resources/diagrams/async-history-rabbitmq.png "Async History with RabbitMQ")
 
-Using Spring Boot, message listeners are created that react on new history data being generated. The listener implementation, using the Flowable API, will then process the data and do something with it, like sending it to some external data store.
+Using Spring Boot, message listeners are created that react on new history data being generated. The listener implementation, using the Flowable API, will then process the data and do something with it, such as sending it to some external data store.
 
 
 ### Dependencies
 
-The dependencies are pretty predictable:
+The dependencies are as might be expected:
 
-* spring-boot-starter-amqp which transitively adds all Spring and AMQP dependencies
-* The Flowable engine and Spring dependency, as we need to call the engine api in the message listener
+* spring-boot-starter-amqp, which transitively adds all Spring and AMQP dependencies
+* The Flowable engine and Spring dependency, as it needs to call the engine API in the message listener
 * A database driver and connection pool framework
 
 ```xml
@@ -152,7 +152,7 @@ public class Application {
 }
 ```
 
-The Queue, Binding, TopicExchange, SimpleMessageListenerContainer and Receiver bean are needed to set up a message listener for RabbitMQ. As messages are sent to an exchange in RabbitMQ (contrary to JMS where messages are sent to a queue): a _TopicExchange_ (where the engine will sent the messages to) is configured to route its messages to the _Queue_ instance using the _Binding_ definition.
+The Queue, Binding, TopicExchange, SimpleMessageListenerContainer and Receiver bean are needed to set up a message listener for RabbitMQ. As messages are sent to an exchange in RabbitMQ (contrary to JMS where messages are sent to a queue), a _TopicExchange_ (where the engine will send the messages to) is configured to route its messages to the _Queue_ instance using the _Binding_ definition.
 
 The actual message listeners are instances of the _Receiver_ and run in the _SimpleMessageListenerContainer_ as defined above. Note that the _receiveMessage_ method is configured to receive the message in the _MessageListenerAdapter_ bean.
 
@@ -197,7 +197,7 @@ public AsyncHistoryJobMessageReceiver asyncHistoryJobMessageReceiver() {
 }
 ```    
 
-The last part of the puzzle is that the _AsyncHistoryJobMessageReceiver_ needs to know what to do with the history job data. For this purpose, as shown in the code snippet above, it needs an _AsyncHistoryJobMessageHandler_ instance. Here a dummy implementation (_MyJobMessageHandler_) is used to simply print out the data, but of course it is easy to imagine that such _JobMessageHandler_ does something more sophisticated with it.
+The last part of the puzzle is that the _AsyncHistoryJobMessageReceiver_ needs to know what to do with the history job data. For this purpose, as shown in the code snippet above, it needs an _AsyncHistoryJobMessageHandler_ instance. Here a dummy implementation (_MyJobMessageHandler_) is used to simply print out the data, but of course, it is easy to imagine that such _JobMessageHandler_ does something more sophisticated with it.
 
 When running this Spring Boot application, and executing the example from [the Async History with Rabbit MQ example](../async-history-rabbitmq-cfg), the output is now something like:
 
