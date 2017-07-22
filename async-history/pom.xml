@@ -10,7 +10,7 @@
 	<version>1.0</version>
 
 	<properties>
-		<flowable.version>6.1.1-SNAPSHOT</flowable.version>
+		<flowable.version>6.1.1</flowable.version>
 		<spring.version>4.3.9.RELEASE</spring.version>
 	</properties>
 

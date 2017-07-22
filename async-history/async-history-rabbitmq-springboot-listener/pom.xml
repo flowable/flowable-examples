@@ -16,7 +16,7 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<flowable.version>6.1.1-SNAPSHOT</flowable.version>
+		<flowable.version>6.1.1</flowable.version>
 	</properties>
 
 	<dependencies>
