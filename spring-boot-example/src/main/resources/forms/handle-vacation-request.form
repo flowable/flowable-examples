@@ -1,0 +1,45 @@
+{
+  "name": "Handle Vacation Request",
+  "key": "handle-vacation-request",
+  "version": 0,
+  "fields": [
+    {
+      "fieldType": "OptionFormField",
+      "id": "vacationApproved",
+      "name": "Do you approve this vacation?",
+      "type": "radio-buttons",
+      "value": "Approve",
+      "required": true,
+      "readOnly": false,
+      "overrideId": true,
+      "placeholder": null,
+      "layout": null,
+      "optionType": null,
+      "hasEmptyValue": null,
+      "options": [
+        {
+          "id": null,
+          "name": "Approve"
+        },
+        {
+          "id": null,
+          "name": "Reject"
+        }
+      ],
+      "optionsExpression": null
+    },
+    {
+      "fieldType": "FormField",
+      "id": "managerMotivation",
+      "name": "Motivation",
+      "type": "multi-line-text",
+      "value": null,
+      "required": false,
+      "readOnly": false,
+      "overrideId": true,
+      "placeholder": null,
+      "layout": null
+    }
+  ],
+  "outcomes": []
+}
