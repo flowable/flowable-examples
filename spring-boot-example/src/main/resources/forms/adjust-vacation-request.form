@@ -1,0 +1,72 @@
+{
+  "name": "Adjust vacation request",
+  "key": "adjust-vacation-request",
+  "version": 0,
+  "fields": [
+    {
+      "fieldType": "FormField",
+      "id": "numberOfDays",
+      "name": "Number of days",
+      "type": "integer",
+      "value": null,
+      "required": true,
+      "readOnly": false,
+      "overrideId": true,
+      "placeholder": null,
+      "params": {
+        "mask": ""
+      },
+      "layout": null
+    },
+    {
+      "fieldType": "FormField",
+      "id": "startDate",
+      "name": "First day of holiday (dd-MM-yyy)",
+      "type": "date",
+      "value": null,
+      "required": true,
+      "readOnly": false,
+      "overrideId": true,
+      "placeholder": null,
+      "layout": null
+    },
+    {
+      "fieldType": "FormField",
+      "id": "vacationMotivation",
+      "name": "Motivation",
+      "type": "multi-line-text",
+      "value": null,
+      "required": false,
+      "readOnly": false,
+      "overrideId": true,
+      "placeholder": null,
+      "layout": null
+    },
+    {
+      "fieldType": "OptionFormField",
+      "id": "resendRequest",
+      "name": "Resend vacation request to manager?",
+      "type": "radio-buttons",
+      "value": "Yes",
+      "required": true,
+      "readOnly": false,
+      "overrideId": true,
+      "placeholder": null,
+      "layout": null,
+      "optionType": null,
+      "hasEmptyValue": null,
+      "options": [
+        {
+          "id": null,
+          "name": "Yes"
+        },
+        {
+          "id": null,
+          "name": "No"
+        }
+      ],
+      "optionsExpression": null
+    }
+  ],
+  "outcomes": []
+}
