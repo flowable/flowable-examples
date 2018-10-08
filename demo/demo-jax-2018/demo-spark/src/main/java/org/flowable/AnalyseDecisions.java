@@ -130,11 +130,11 @@ public class AnalyseDecisions {
         JavaSparkContext javaSparkContext = new JavaSparkContext(spark.sparkContext());
 
         JavaRDD<LabeledPoint> data = MongoSpark.load(javaSparkContext) // starts as a JavaMongoRDD<Document>
-                 // to JavaPairRDD<String, Iterable<Map<String, Object>>>
+                 // to JavaPairRDD<String, Iterable<Document>>
                 .groupBy(historicVariableData -> (String) historicVariableData.get("processInstanceId")) 
                 
-                // to JavaRDD<Iterable<Map<String, Object>>>
-                .values() 
+                // to JavaRDD<Iterable<Document>
+                .values()
                 .filter(iterable -> {
                     boolean hasOutcomeVariable = false;
                     for (Map<String, Object> dataMap : iterable) {
