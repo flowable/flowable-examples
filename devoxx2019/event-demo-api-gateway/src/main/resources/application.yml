@@ -1,0 +1,42 @@
+server:
+  port: 8090
+  use-forward-headers: true
+
+
+spring:
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  servlet:
+    multipart:
+      max-file-size: 128MB
+      max-request-size: 128MB
+  cloud:
+    gateway:
+        routes:
+          - id: review-application
+            uri: http://localhost:8084/
+            predicates:
+              - Path=/reviews/**
+          - id: dashboard
+            uri: http://localhost:8123/dashboard/
+            predicates:
+              - Path=/dashboard/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # Expose all actuator endpoints to the web
+        # They are exposed, but only authenticated users can see /info and /health abd users with access-admin can see the others
+        include: "*"
+  endpoint:
+    health:
+      # Full health details should only be displayed when a user is authorized
+      show-details: when_authorized
+      # Only users with role access-admin can access full health details
+      roles: access-admin
+
+ribbon:
+  eureka:
+    enabled: false

@@ -1,0 +1,41 @@
+.flw-lineChart {
+  &.dark {
+    background-color: #2F4562;
+    .apexcharts-xaxistooltip {
+      background: #1B213B;
+      color: #fff;
+    }
+    text {
+      fill: #fff;
+    }
+  }
+
+  background-color: #dedede;
+  .apexcharts-xaxistooltip {
+    background: #fff;
+    color: #363537;
+  }
+  text {
+    fill: #363537;
+  }
+  
+  padding: 25px 25px; 
+  border-radius: 4px; 
+  font-weight: bold;
+  text {
+    font-weight: 600;
+  }
+}
+
+.columnbox {
+  padding-right: 15px;
+}
+.radialbox {
+  max-height: 333px;
+  margin-bottom: 60px;
+}
+
+.apexcharts-legend-series tspan:nth-child(3) {
+  font-weight: bold;
+  font-size: 20px;
+}

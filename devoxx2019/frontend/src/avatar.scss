@@ -1,0 +1,24 @@
+.flw-avatar {
+  $size: 36px;
+  margin: 5px 0;
+  color: White;
+  background-color: blue;
+  display: block;
+  height: $size;
+  width: $size;
+  border-radius: 50%;
+  line-height: $size;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  img { display: none; }
+  &--image {
+    img {
+      width: $size;
+      height: $size;
+      display: block;
+      border-radius: 50px;
+    }
+    background: transparent;
+  }
+}

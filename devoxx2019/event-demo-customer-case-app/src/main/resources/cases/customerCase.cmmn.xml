@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flowable="http://flowable.org/cmmn" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:design="http://flowable.org/design" targetNamespace="http://flowable.org/cmmn">
+    <case id="customerCase" name="customerCase" flowable:initiatorVariableName="initiator" flowable:candidateStarterGroups="flowableUser" flowable:startEventType="reviewEvent">
+        <extensionElements>
+            <flowable:startEventCorrelationConfiguration><![CDATA[storeAsUniqueBusinessKey]]></flowable:startEventCorrelationConfiguration>
+            <flowable:eventOutParameter source="userId" target="userId"></flowable:eventOutParameter>
+            <flowable:eventOutParameter source="stationId" target="stationId"></flowable:eventOutParameter>
+            <flowable:eventOutParameter source="rating" target="rating"></flowable:eventOutParameter>
+        </extensionElements>
+        <casePlanModel id="onecaseplanmodel1" name="Customer case" flowable:formFieldValidation="false">
+            <extensionElements>
+                <flowable:work-form-field-validation><![CDATA[false]]></flowable:work-form-field-validation>
+                <design:stencilid><![CDATA[CasePlanModel]]></design:stencilid>
+            </extensionElements>
+            <planItem id="planItem7" name="Active subscription" definitionRef="expandedStage1">
+                <exitCriterion id="exitCriterion2" sentryRef="sentry6"></exitCriterion>
+            </planItem>
+            <planItem id="planItem10" name="Deactivated" definitionRef="expandedStage2">
+                <entryCriterion id="entryCriterion3" sentryRef="sentry5"></entryCriterion>
+            </planItem>
+            <planItem id="planItem11" name="Deactivation received" definitionRef="eventListener2"></planItem>
+            <sentry id="sentry6">
+                <extensionElements>
+                    <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[ExitCriterion]]></design:stencilid>
+                </extensionElements>
+                <planItemOnPart id="sentryOnPart4" sourceRef="planItem11">
+                    <standardEvent>occur</standardEvent>
+                </planItemOnPart>
+            </sentry>
+            <sentry id="sentry5">
+                <extensionElements>
+                    <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[EntryCriterion]]></design:stencilid>
+                </extensionElements>
+                <planItemOnPart id="sentryOnPart6" sourceRef="planItem11">
+                    <standardEvent>occur</standardEvent>
+                </planItemOnPart>
+            </sentry>
+            <stage id="expandedStage1" name="Active subscription" flowable:includeInStageOverview="true">
+                <extensionElements>
+                    <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                    <design:stencilid><![CDATA[ExpandedStage]]></design:stencilid>
+                </extensionElements>
+                <planItem id="planItem1" name="Send marketing email" definitionRef="emailTask1">
+                    <entryCriterion id="entryCriterion2" sentryRef="sentry1"></entryCriterion>
+                </planItem>
+                <planItem id="planItem2" name="Sentiment analysis" definitionRef="processTask1">
+                    <itemControl>
+                        <repetitionRule flowable:counterVariable="repetitionCounter"></repetitionRule>
+                    </itemControl>
+                    <entryCriterion id="entryCriterion6" sentryRef="sentry2"></entryCriterion>
+                </planItem>
+                <planItem id="planItem3" name="Handle support request" definitionRef="processTask3">
+                    <itemControl>
+                        <repetitionRule flowable:counterVariable="repetitionCounter"></repetitionRule>
+                    </itemControl>
+                    <entryCriterion id="entryCriterion8" sentryRef="sentry3"></entryCriterion>
+                </planItem>
+                <planItem id="planItem4" name="Review received" definitionRef="eventListener1">
+                    <itemControl>
+                        <repetitionRule flowable:counterVariable="repetitionCounter"></repetitionRule>
+                    </itemControl>
+                </planItem>
+                <planItem id="planItem5" definitionRef="timerEventListener1"></planItem>
+                <planItem id="planItem6" name="Customer support
+request received" definitionRef="eventListener3">
+                    <itemControl>
+                        <repetitionRule flowable:counterVariable="repetitionCounter"></repetitionRule>
+                    </itemControl>
+                </planItem>
+                <sentry id="sentry1">
+                    <extensionElements>
+                        <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[EntryCriterion]]></design:stencilid>
+                    </extensionElements>
+                    <planItemOnPart id="sentryOnPart1" sourceRef="planItem5">
+                        <standardEvent>occur</standardEvent>
+                    </planItemOnPart>
+                </sentry>
+                <sentry id="sentry2">
+                    <extensionElements>
+                        <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[EntryCriterion]]></design:stencilid>
+                    </extensionElements>
+                    <planItemOnPart id="sentryOnPart2" sourceRef="planItem4">
+                        <standardEvent>occur</standardEvent>
+                    </planItemOnPart>
+                </sentry>
+                <sentry id="sentry3">
+                    <extensionElements>
+                        <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[EntryCriterion]]></design:stencilid>
+                    </extensionElements>
+                    <planItemOnPart id="sentryOnPart3" sourceRef="planItem6">
+                        <standardEvent>occur</standardEvent>
+                    </planItemOnPart>
+                </sentry>
+                <task id="emailTask1" name="Send marketing email" flowable:type="mail">
+                    <extensionElements>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[EmailTask]]></design:stencilid>
+                        <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                        <flowable:field name="to">
+                            <flowable:expression><![CDATA[${userEmail}]]></flowable:expression>
+                        </flowable:field>
+                        <flowable:field name="from">
+                            <flowable:string><![CDATA[info@flowable.org]]></flowable:string>
+                        </flowable:field>
+                        <flowable:field name="subject">
+                            <flowable:string><![CDATA[Happy Anniversary!]]></flowable:string>
+                        </flowable:field>
+                        <flowable:field name="text">
+                            <flowable:expression><![CDATA[Hi ${userFirstName} ${userLastName},
+
+
+We just wanted to thank you for using our awesome bike service the last year.
+
+It's people like you, our dear beloved bike users, that motivate us to continue to innovate and excel each and every day!
+
+
+Kind Regards,]]></flowable:expression>
+                        </flowable:field>
+                    </extensionElements>
+                </task>
+                <processTask id="processTask1" name="Sentiment analysis" flowable:fallbackToDefaultTenant="true">
+                    <extensionElements>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[ProcessTask]]></design:stencilid>
+                        <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                        <flowable:in source="userId" target="userId"></flowable:in>
+                        <flowable:in source="comment" target="comment"></flowable:in>
+                    </extensionElements>
+                    <processRefExpression><![CDATA[sentimentAnalysisProcess]]></processRefExpression>
+                </processTask>
+                <processTask id="processTask3" name="Handle support request" flowable:fallbackToDefaultTenant="true">
+                    <extensionElements>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[ProcessTask]]></design:stencilid>
+                        <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                    </extensionElements>
+                    <processRefExpression><![CDATA[handleSupportRequestProcess]]></processRefExpression>
+                </processTask>
+                <eventListener id="eventListener1" name="Review received" flowable:eventType="reviewEvent">
+                    <extensionElements>
+                        <flowable:eventCorrelationParameter name="userId" value="${userId}"></flowable:eventCorrelationParameter>
+                        <flowable:eventOutParameter source="userId" target="userId"></flowable:eventOutParameter>
+                        <flowable:eventOutParameter source="stationId" target="stationId"></flowable:eventOutParameter>
+                        <flowable:eventOutParameter source="rating" target="rating"></flowable:eventOutParameter>
+                        <flowable:eventOutParameter source="comment" target="comment"></flowable:eventOutParameter>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[EventListener]]></design:stencilid>
+                    </extensionElements>
+                </eventListener>
+                <timerEventListener id="timerEventListener1">
+                    <extensionElements>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[TimerEventListener]]></design:stencilid>
+                        <design:stencilsuperid><![CDATA[EventListener]]></design:stencilsuperid>
+                    </extensionElements>
+                    <timerExpression><![CDATA[P365D]]></timerExpression>
+                </timerEventListener>
+                <eventListener id="eventListener3" name="Customer support
+request received">
+                    <extensionElements>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[EventListener]]></design:stencilid>
+                    </extensionElements>
+                </eventListener>
+            </stage>
+            <stage id="expandedStage2" name="Deactivated" flowable:includeInStageOverview="true">
+                <extensionElements>
+                    <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                    <design:stencilid><![CDATA[ExpandedStage]]></design:stencilid>
+                </extensionElements>
+                <planItem id="planItem8" name="Send goodbye email" definitionRef="emailTask2">
+                    <entryCriterion id="entryCriterion7" sentryRef="sentry4"></entryCriterion>
+                </planItem>
+                <planItem id="planItem9" name="Deactivate user data in all systems" definitionRef="processTask2"></planItem>
+                <sentry id="sentry4">
+                    <extensionElements>
+                        <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[EntryCriterion]]></design:stencilid>
+                    </extensionElements>
+                    <planItemOnPart id="sentryOnPart5" sourceRef="planItem9">
+                        <standardEvent>complete</standardEvent>
+                    </planItemOnPart>
+                </sentry>
+                <task id="emailTask2" name="Send goodbye email" flowable:type="mail">
+                    <extensionElements>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[EmailTask]]></design:stencilid>
+                        <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                        <flowable:field name="to">
+                            <flowable:expression><![CDATA[${userEmail}]]></flowable:expression>
+                        </flowable:field>
+                        <flowable:field name="from">
+                            <flowable:string><![CDATA[info@flowable.org]]></flowable:string>
+                        </flowable:field>
+                        <flowable:field name="subject">
+                            <flowable:string><![CDATA[Sorry to see you go!]]></flowable:string>
+                        </flowable:field>
+                        <flowable:field name="text">
+                            <flowable:expression><![CDATA[Dear ${userFirstName} ${userLastName},
+
+We're very sorry to see you go. Thanks for all the time you spent with us.
+
+Regards,]]></flowable:expression>
+                        </flowable:field>
+                    </extensionElements>
+                </task>
+                <processTask id="processTask2" name="Deactivate user data in all systems" flowable:fallbackToDefaultTenant="true">
+                    <extensionElements>
+                        <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                        <design:stencilid><![CDATA[ProcessTask]]></design:stencilid>
+                        <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                    </extensionElements>
+                    <processRefExpression><![CDATA[deactivateAccountProcess]]></processRefExpression>
+                </processTask>
+            </stage>
+            <eventListener id="eventListener2" name="Deactivation received">
+                <extensionElements>
+                    <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
+                    <design:stencilid><![CDATA[EventListener]]></design:stencilid>
+                </extensionElements>
+            </eventListener>
+        </casePlanModel>
+    </case>
+    <cmmndi:CMMNDI>
+        <cmmndi:CMMNDiagram id="CMMNDiagram_customerCase">
+            <cmmndi:CMMNShape id="CMMNShape_onecaseplanmodel1" cmmnElementRef="onecaseplanmodel1">
+                <dc:Bounds height="750.0" width="915.0" x="30.0" y="45.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem7" cmmnElementRef="planItem7">
+                <dc:Bounds height="375.0" width="615.0" x="75.0" y="105.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_exitCriterion2" cmmnElementRef="exitCriterion2">
+                <dc:Bounds height="28.0" width="18.0" x="141.0" y="466.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem1" cmmnElementRef="planItem1">
+                <dc:Bounds height="80.0" width="109.0" x="555.0" y="380.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_entryCriterion2" cmmnElementRef="entryCriterion2">
+                <dc:Bounds height="28.0" width="18.0" x="546.0" y="409.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem2" cmmnElementRef="planItem2">
+                <dc:Bounds height="80.0" width="100.0" x="250.0" y="155.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_entryCriterion6" cmmnElementRef="entryCriterion6">
+                <dc:Bounds height="28.0" width="18.0" x="241.0" y="181.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem3" cmmnElementRef="planItem3">
+                <dc:Bounds height="80.0" width="100.0" x="250.0" y="305.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_entryCriterion8" cmmnElementRef="entryCriterion8">
+                <dc:Bounds height="28.0" width="18.0" x="241.0" y="334.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem4" cmmnElementRef="planItem4">
+                <dc:Bounds height="30.0" width="30.0" x="120.0" y="180.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem5" cmmnElementRef="planItem5">
+                <dc:Bounds height="30.0" width="30.0" x="420.0" y="408.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem6" cmmnElementRef="planItem6">
+                <dc:Bounds height="30.0" width="30.0" x="120.0" y="333.0"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem10" cmmnElementRef="planItem10">
+                <dc:Bounds height="203.5" width="600.0" x="270.0" y="546.5"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_entryCriterion3" cmmnElementRef="entryCriterion3">
+                <dc:Bounds height="28.0" width="18.0" x="261.0" y="639.4372549019607"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem8" cmmnElementRef="planItem8">
+                <dc:Bounds height="85.14068627450979" width="150.0" x="525.0" y="604.8593137254902"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_entryCriterion7" cmmnElementRef="entryCriterion7">
+                <dc:Bounds height="28.0" width="18.0" x="516.0" y="632.8593137254902"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem9" cmmnElementRef="planItem9">
+                <dc:Bounds height="84.28137254901958" width="119.0" x="323.0" y="604.7186274509804"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="CMMNShape_planItem11" cmmnElementRef="planItem11">
+                <dc:Bounds height="30.0" width="30.0" x="135.0" y="638.4372549019607"></dc:Bounds>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector2" cmmnElementRef="planItem5" targetCMMNElementRef="entryCriterion2">
+                <di:waypoint x="449.94999873104683" y="423.0"></di:waypoint>
+                <di:waypoint x="546.0" y="423.0"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector3" cmmnElementRef="planItem11" targetCMMNElementRef="entryCriterion3">
+                <di:waypoint x="164.94999873104692" y="653.4372549019607"></di:waypoint>
+                <di:waypoint x="261.0" y="653.4372549019607"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector10" cmmnElementRef="planItem6" targetCMMNElementRef="entryCriterion8">
+                <di:waypoint x="149.9499986183554" y="348.0"></di:waypoint>
+                <di:waypoint x="241.0" y="348.0"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector9" cmmnElementRef="planItem9" targetCMMNElementRef="entryCriterion7">
+                <di:waypoint x="441.95000000000005" y="646.8593137254902"></di:waypoint>
+                <di:waypoint x="483.5" y="646.8593137254902"></di:waypoint>
+                <di:waypoint x="483.5" y="646.8593137254902"></di:waypoint>
+                <di:waypoint x="516.0" y="646.8593137254902"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector6" cmmnElementRef="planItem11" targetCMMNElementRef="exitCriterion2">
+                <di:waypoint x="150.0" y="638.4372549019607"></di:waypoint>
+                <di:waypoint x="150.0" y="493.8782824844034"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector8" cmmnElementRef="planItem4" targetCMMNElementRef="entryCriterion6">
+                <di:waypoint x="149.9499986183554" y="195.0"></di:waypoint>
+                <di:waypoint x="241.0" y="195.0"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+        </cmmndi:CMMNDiagram>
+    </cmmndi:CMMNDI>
+</definitions>

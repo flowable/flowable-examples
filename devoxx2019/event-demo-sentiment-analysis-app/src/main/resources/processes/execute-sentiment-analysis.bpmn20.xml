@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:design="http://flowable.org/design" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://flowable.org/test" design:palette="flowable-process-palette">
+    <process id="sentimentAnalysis" name="sentimentAnalysis" isExecutable="true" flowable:candidateStarterGroups="flowableUser">
+        <extensionElements>
+            <design:stencilid><![CDATA[BPMNDiagram]]></design:stencilid>
+            <design:name><![CDATA[sentimentAnalysis]]></design:name>
+            <design:id><![CDATA[sentimentAnalysis]]></design:id>
+            <design:guid><![CDATA[PROCESS_MODEL-e6c802c4-78ca-4cbe-8317-53a44b2ca050]]></design:guid>
+            <design:language><![CDATA[English]]></design:language>
+            <design:creationdate><![CDATA[2019-10-31T14:44:14.520Z]]></design:creationdate>
+            <design:modificationdate><![CDATA[2019-11-01T08:49:56.990Z]]></design:modificationdate>
+        </extensionElements>
+        <exclusiveGateway id="exclusive_Databased_Gateway1" name="One of the real users?" default="sequenceFlow4">
+            <extensionElements>
+                <design:stencilid><![CDATA[Exclusive_Databased_Gateway]]></design:stencilid>
+                <design:name-run><![CDATA[One of the real users?]]></design:name-run>
+            </extensionElements>
+        </exclusiveGateway>
+        <sequenceFlow id="sequenceFlow3" name="It's a real user" sourceRef="exclusive_Databased_Gateway1" targetRef="serviceTask1">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+                <design:name-run><![CDATA[It's a real user]]></design:name-run>
+                <design:conditionexpression><![CDATA[${userId.toLowerCase() == 'joram' || userId.toLowerCase() == 'tijs' || userId.toLowerCase() == 'filip'}]]></design:conditionexpression>
+            </extensionElements>
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${userId.toLowerCase() == 'joram' || userId.toLowerCase() == 'tijs' || userId.toLowerCase() == 'filip'}]]></conditionExpression>
+        </sequenceFlow>
+        <serviceTask id="serviceTask1" name="AWS sentiment analysis" flowable:expression="${sentimentService.analyse(comment)}" flowable:resultVariableName="sentiment">
+            <extensionElements>
+                <design:stencilid><![CDATA[ServiceTask]]></design:stencilid>
+                <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                <design:name-run><![CDATA[AWS sentiment analysis]]></design:name-run>
+            </extensionElements>
+        </serviceTask>
+        <sequenceFlow id="sequenceFlow4" sourceRef="exclusive_Databased_Gateway1" targetRef="serviceTask2">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+                <design:defaultflow><![CDATA[true]]></design:defaultflow>
+            </extensionElements>
+        </sequenceFlow>
+        <serviceTask id="serviceTask2" name="Randomly generate a sentiment" flowable:expression="${randomSentimentService.generator()}" flowable:resultVariableName="sentiment">
+            <extensionElements>
+                <design:stencilid><![CDATA[ServiceTask]]></design:stencilid>
+                <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                <design:name-run><![CDATA[Randomly generate a sentiment]]></design:name-run>
+            </extensionElements>
+        </serviceTask>
+        <startEvent id="startEventEvent1">
+            <extensionElements>
+                <flowable:eventType><![CDATA[sentimentAnalysisEvent]]></flowable:eventType>
+                <flowable:eventOutParameter source="userId" target="userId"></flowable:eventOutParameter>
+                <flowable:eventOutParameter source="comment" target="comment"></flowable:eventOutParameter>
+                <design:stencilid><![CDATA[StartEventEvent]]></design:stencilid>
+            </extensionElements>
+        </startEvent>
+        <sequenceFlow id="sequenceFlow5" sourceRef="startEventEvent1" targetRef="exclusive_Databased_Gateway1">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+        <serviceTask id="sendEventTask1" name="Send back analysis result event" flowable:type="send-event" flowable:eventType="sentimentAnalysisResultEvent">
+            <extensionElements>
+                <flowable:eventInParameter source="${userId}" target="userId"></flowable:eventInParameter>
+                <flowable:eventInParameter source="${comment}" target="comment"></flowable:eventInParameter>
+                <flowable:eventInParameter source="${sentiment}" target="sentiment"></flowable:eventInParameter>
+                <design:stencilid><![CDATA[SendEventTask]]></design:stencilid>
+                <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+                <design:name-run><![CDATA[Send back analysis result event]]></design:name-run>
+            </extensionElements>
+        </serviceTask>
+        <sequenceFlow id="sequenceFlow6" sourceRef="serviceTask2" targetRef="sendEventTask1">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+        <sequenceFlow id="sequenceFlow7" sourceRef="serviceTask1" targetRef="sendEventTask1">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+        <endEvent id="endNoneEvent1">
+            <extensionElements>
+                <design:stencilid><![CDATA[EndNoneEvent]]></design:stencilid>
+            </extensionElements>
+        </endEvent>
+        <sequenceFlow id="sequenceFlow8" sourceRef="sendEventTask1" targetRef="endNoneEvent1">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+        <textAnnotation id="textAnnotation1">
+            <extensionElements>
+                <design:stencilid><![CDATA[TextAnnotation]]></design:stencilid>
+                <design:name-run><![CDATA[Text annotation]]></design:name-run>
+                <design:fontsize><![CDATA[14]]></design:fontsize>
+                <design:text><![CDATA[To avoid surprising AWS bills, for example by leaving the demo UI running at night, we only do a real analysis when we know it's one of the real users]]></design:text>
+            </extensionElements>
+            <text>To avoid surprising AWS bills, for example by leaving the demo UI running at night, we only do a real analysis when we know it's one of the real users</text>
+        </textAnnotation>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_sentimentAnalysis">
+        <bpmndi:BPMNPlane bpmnElement="sentimentAnalysis" id="BPMNPlane_sentimentAnalysis">
+            <bpmndi:BPMNShape bpmnElement="exclusive_Databased_Gateway1" id="BPMNShape_exclusive_Databased_Gateway1">
+                <omgdc:Bounds height="40.0" width="40.0" x="210.0" y="340.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="serviceTask1" id="BPMNShape_serviceTask1">
+                <omgdc:Bounds height="80.0" width="100.0" x="420.0" y="150.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="serviceTask2" id="BPMNShape_serviceTask2">
+                <omgdc:Bounds height="80.0" width="100.0" x="420.0" y="320.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="textAnnotation1" id="BPMNShape_textAnnotation1">
+                <omgdc:Bounds height="135.0" width="120.0" x="45.0" y="180.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="startEventEvent1" id="BPMNShape_startEventEvent1">
+                <omgdc:Bounds height="30.0" width="30.0" x="105.0" y="345.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sendEventTask1" id="BPMNShape_sendEventTask1">
+                <omgdc:Bounds height="80.0" width="100.0" x="645.0" y="320.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="endNoneEvent1" id="BPMNShape_endNoneEvent1">
+                <omgdc:Bounds height="28.0" width="28.0" x="790.0" y="346.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge bpmnElement="sequenceFlow6" id="BPMNEdge_sequenceFlow6">
+                <omgdi:waypoint x="519.95" y="360.0"></omgdi:waypoint>
+                <omgdi:waypoint x="645.0" y="360.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sequenceFlow3" id="BPMNEdge_sequenceFlow3">
+                <omgdi:waypoint x="230.49999999999994" y="340.5"></omgdi:waypoint>
+                <omgdi:waypoint x="230.5" y="190.0"></omgdi:waypoint>
+                <omgdi:waypoint x="420.0" y="190.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sequenceFlow4" id="BPMNEdge_sequenceFlow4">
+                <omgdi:waypoint x="249.48566499369474" y="360.4602510460251"></omgdi:waypoint>
+                <omgdi:waypoint x="419.99999999997584" y="360.1042797494781"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sequenceFlow7" id="BPMNEdge_sequenceFlow7">
+                <omgdi:waypoint x="519.9499999999657" y="190.0"></omgdi:waypoint>
+                <omgdi:waypoint x="695.0" y="190.0"></omgdi:waypoint>
+                <omgdi:waypoint x="695.0" y="320.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sequenceFlow8" id="BPMNEdge_sequenceFlow8">
+                <omgdi:waypoint x="744.9499999999999" y="360.0"></omgdi:waypoint>
+                <omgdi:waypoint x="790.0" y="360.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,26 @@
+{
+  "editor.insertSpaces": true,
+  "editor.trimAutoWhitespace": true,
+  "editor.tabSize": 2,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.formatOnSave": true,
+  "[scss]": {
+    // We need a bit of work with prettier here, disabled for now
+    "editor.formatOnSave": false
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": false,
+    "editor.formatOnSave": false
+  },
+  "files.associations": {
+    ".prettierrc": "json",
+    "*.ejs.t": "ejs"
+  },
+  "markdown-toc.depthFrom": 2,
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html"],
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/node": true
+  }
+}

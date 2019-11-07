@@ -1,0 +1,17 @@
+.flw-rating {
+  display: flex;
+  flex-direction: row;
+  margin: 0 10px 0 10px;
+  .flw-star {
+    width: 15px;
+    height: 15px;
+    background-color: #E8EAED;
+    clip-path: polygon( 50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38% );
+    &.selected {
+      background-color: #FBBC04;
+    }
+    &.enabled {
+      cursor: pointer;
+    }
+  }
+}

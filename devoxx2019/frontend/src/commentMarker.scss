@@ -1,0 +1,20 @@
+.flw-commentMarker {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  color: gray;
+  max-width: 200px;
+  &__content {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    &__user {
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0 10px 10px;
+    }
+    &__comment {
+      word-break: break-word;
+    }
+  }
+}

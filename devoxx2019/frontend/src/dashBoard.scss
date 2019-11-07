@@ -1,0 +1,7 @@
+.flw-dashBoard {
+  padding: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 40%);
+  grid-gap: 30px;
+  grid-auto-rows: repeat(2, auto);
+}

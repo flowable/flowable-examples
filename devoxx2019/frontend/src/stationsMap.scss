@@ -1,0 +1,11 @@
+.flw-inMap-form.flw-stationMap-form {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    width: 250px;
+    padding: 10px;
+    box-shadow: none;
+    .flw-stationMap-form__input textarea {
+      height: 50px;
+    }
+}
