@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flowable="http://flowable.org/cmmn" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:design="http://flowable.org/design" targetNamespace="http://flowable.org/cmmn">
-    <case id="customerCase" name="customerCase" flowable:initiatorVariableName="initiator" flowable:candidateStarterGroups="flowableUser" flowable:startEventType="reviewEvent">
+    <case id="customerCase" name="customerCase" flowable:initiatorVariableName="initiator" flowable:candidateStarterGroups="flowableUser">
         <extensionElements>
-            <flowable:startEventCorrelationConfiguration><![CDATA[storeAsUniqueBusinessKey]]></flowable:startEventCorrelationConfiguration>
+            <flowable:eventType><![CDATA[reviewEvent]]></flowable:eventType>
+            <flowable:startEventCorrelationConfiguration><![CDATA[storeAsUniqueReferenceId]]></flowable:startEventCorrelationConfiguration>
             <flowable:eventOutParameter source="userId" target="userId"></flowable:eventOutParameter>
             <flowable:eventOutParameter source="stationId" target="stationId"></flowable:eventOutParameter>
             <flowable:eventOutParameter source="rating" target="rating"></flowable:eventOutParameter>
+            <flowable:eventOutParameter source="comment" target="comment"></flowable:eventOutParameter>
         </extensionElements>
         <casePlanModel id="onecaseplanmodel1" name="Customer case" flowable:formFieldValidation="false">
             <extensionElements>
@@ -13,13 +15,13 @@
                 <design:stencilid><![CDATA[CasePlanModel]]></design:stencilid>
             </extensionElements>
             <planItem id="planItem7" name="Active subscription" definitionRef="expandedStage1">
-                <exitCriterion id="exitCriterion2" sentryRef="sentry6"></exitCriterion>
+                <exitCriterion id="exitCriterion2" sentryRef="sentry5"></exitCriterion>
             </planItem>
             <planItem id="planItem10" name="Deactivated" definitionRef="expandedStage2">
-                <entryCriterion id="entryCriterion3" sentryRef="sentry5"></entryCriterion>
+                <entryCriterion id="entryCriterion3" sentryRef="sentry6"></entryCriterion>
             </planItem>
             <planItem id="planItem11" name="Deactivation received" definitionRef="eventListener2"></planItem>
-            <sentry id="sentry6">
+            <sentry id="sentry5">
                 <extensionElements>
                     <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[ExitCriterion]]></design:stencilid>
                 </extensionElements>
@@ -27,7 +29,7 @@
                     <standardEvent>occur</standardEvent>
                 </planItemOnPart>
             </sentry>
-            <sentry id="sentry5">
+            <sentry id="sentry6">
                 <extensionElements>
                     <design:stencilid xmlns:design="http://flowable.org/design"><![CDATA[EntryCriterion]]></design:stencilid>
                 </extensionElements>
@@ -61,8 +63,7 @@
                     </itemControl>
                 </planItem>
                 <planItem id="planItem5" definitionRef="timerEventListener1"></planItem>
-                <planItem id="planItem6" name="Customer support
-request received" definitionRef="eventListener3">
+                <planItem id="planItem6" name="Customer support request received" definitionRef="eventListener3">
                     <itemControl>
                         <repetitionRule flowable:counterVariable="repetitionCounter"></repetitionRule>
                     </itemControl>
@@ -136,8 +137,9 @@ Kind Regards,]]></flowable:expression>
                     </extensionElements>
                     <processRefExpression><![CDATA[handleSupportRequestProcess]]></processRefExpression>
                 </processTask>
-                <eventListener id="eventListener1" name="Review received" flowable:eventType="reviewEvent">
+                <eventListener id="eventListener1" name="Review received">
                     <extensionElements>
+                        <flowable:eventType><![CDATA[reviewEvent]]></flowable:eventType>
                         <flowable:eventCorrelationParameter name="userId" value="${userId}"></flowable:eventCorrelationParameter>
                         <flowable:eventOutParameter source="userId" target="userId"></flowable:eventOutParameter>
                         <flowable:eventOutParameter source="stationId" target="stationId"></flowable:eventOutParameter>
@@ -155,8 +157,7 @@ Kind Regards,]]></flowable:expression>
                     </extensionElements>
                     <timerExpression><![CDATA[P365D]]></timerExpression>
                 </timerEventListener>
-                <eventListener id="eventListener3" name="Customer support
-request received">
+                <eventListener id="eventListener3" name="Customer support request received">
                     <extensionElements>
                         <flowable:start-form-field-validation><![CDATA[false]]></flowable:start-form-field-validation>
                         <design:stencilid><![CDATA[EventListener]]></design:stencilid>
@@ -294,19 +295,19 @@ Regards,]]></flowable:expression>
                 <dc:Bounds height="30.0" width="30.0" x="135.0" y="638.4372549019607"></dc:Bounds>
                 <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
             </cmmndi:CMMNShape>
-            <cmmndi:CMMNEdge id="CMMNEdge_connector2" cmmnElementRef="planItem5" targetCMMNElementRef="entryCriterion2">
-                <di:waypoint x="449.94999873104683" y="423.0"></di:waypoint>
-                <di:waypoint x="546.0" y="423.0"></di:waypoint>
-                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
-            </cmmndi:CMMNEdge>
             <cmmndi:CMMNEdge id="CMMNEdge_connector3" cmmnElementRef="planItem11" targetCMMNElementRef="entryCriterion3">
                 <di:waypoint x="164.94999873104692" y="653.4372549019607"></di:waypoint>
                 <di:waypoint x="261.0" y="653.4372549019607"></di:waypoint>
                 <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
             </cmmndi:CMMNEdge>
-            <cmmndi:CMMNEdge id="CMMNEdge_connector10" cmmnElementRef="planItem6" targetCMMNElementRef="entryCriterion8">
-                <di:waypoint x="149.9499986183554" y="348.0"></di:waypoint>
-                <di:waypoint x="241.0" y="348.0"></di:waypoint>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector2" cmmnElementRef="planItem5" targetCMMNElementRef="entryCriterion2">
+                <di:waypoint x="449.94999873104683" y="423.0"></di:waypoint>
+                <di:waypoint x="546.0" y="423.0"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector6" cmmnElementRef="planItem11" targetCMMNElementRef="exitCriterion2">
+                <di:waypoint x="150.0" y="638.4372549019607"></di:waypoint>
+                <di:waypoint x="150.0" y="494.0"></di:waypoint>
                 <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
             </cmmndi:CMMNEdge>
             <cmmndi:CMMNEdge id="CMMNEdge_connector9" cmmnElementRef="planItem9" targetCMMNElementRef="entryCriterion7">
@@ -316,14 +317,14 @@ Regards,]]></flowable:expression>
                 <di:waypoint x="516.0" y="646.8593137254902"></di:waypoint>
                 <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
             </cmmndi:CMMNEdge>
-            <cmmndi:CMMNEdge id="CMMNEdge_connector6" cmmnElementRef="planItem11" targetCMMNElementRef="exitCriterion2">
-                <di:waypoint x="150.0" y="638.4372549019607"></di:waypoint>
-                <di:waypoint x="150.0" y="493.8782824844034"></di:waypoint>
-                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
-            </cmmndi:CMMNEdge>
             <cmmndi:CMMNEdge id="CMMNEdge_connector8" cmmnElementRef="planItem4" targetCMMNElementRef="entryCriterion6">
                 <di:waypoint x="149.9499986183554" y="195.0"></di:waypoint>
                 <di:waypoint x="241.0" y="195.0"></di:waypoint>
+                <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
+            </cmmndi:CMMNEdge>
+            <cmmndi:CMMNEdge id="CMMNEdge_connector10" cmmnElementRef="planItem6" targetCMMNElementRef="entryCriterion8">
+                <di:waypoint x="149.9499986183554" y="348.0"></di:waypoint>
+                <di:waypoint x="241.0" y="348.0"></di:waypoint>
                 <cmmndi:CMMNLabel></cmmndi:CMMNLabel>
             </cmmndi:CMMNEdge>
         </cmmndi:CMMNDiagram>

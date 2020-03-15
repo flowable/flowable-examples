@@ -1,0 +1,8 @@
+{
+  "type": "kafka",
+  "channelType": "outbound",
+  "serializerType": "xml",
+  "topic": "sentiment-analysis-results",
+  "name": "Sentiment Analysis Result Outbound Channel",
+  "key": "sentimentAnalysisResultOutboundChannel"
+}

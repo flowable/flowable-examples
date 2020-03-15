@@ -1,0 +1,13 @@
+{
+  "type": "kafka",
+  "channelType": "inbound",
+  "deserializerType": "json",
+  "topics": [
+    "reviews"
+  ],
+  "channelEventKeyDetection": {
+    "fixedValue": "reviewEvent"
+  },
+  "name": "Review Inbound Channel",
+  "key": "reviewInboundChannel"
+}

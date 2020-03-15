@@ -1,0 +1,13 @@
+{
+  "type": "kafka",
+  "channelType": "inbound",
+  "deserializerType": "json",
+  "topics": [
+    "sentiment-analysis"
+  ],
+  "channelEventKeyDetection": {
+    "fixedValue": "sentimentAnalysisEvent"
+  },
+  "name": "Sentiment Analysis Inbound Channel",
+  "key": "sentimentAnalysisInboundChannel"
+}

@@ -4,7 +4,7 @@ import org.flowable.cmmn.api.CmmnHistoryService;
 import org.flowable.cmmn.api.CmmnRuntimeService;
 import org.flowable.cmmn.api.CmmnTaskService;
 import org.flowable.engine.RuntimeService;
-import org.flowable.eventdemo.controller.ReviewChannelAdapter;
+import org.flowable.eventdemo.controller.ReviewEventCounter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,15 +15,15 @@ public class DashboardController {
     private CmmnTaskService cmmnTaskService;
     private CmmnHistoryService cmmnHistoryService;
     private RuntimeService runtimeService;
-    private ReviewChannelAdapter kafkaInboundChannelAdapter;
+    private ReviewEventCounter reviewEventCounter;
 
     public DashboardController(CmmnRuntimeService cmmnRuntimeService, CmmnTaskService cmmnTaskService, CmmnHistoryService cmmnHistoryService,
-            RuntimeService runtimeService, ReviewChannelAdapter kafkaInboundChannelAdapter) {
+            RuntimeService runtimeService, ReviewEventCounter reviewEventCounter) {
         this.cmmnRuntimeService = cmmnRuntimeService;
         this.cmmnTaskService = cmmnTaskService;
         this.cmmnHistoryService = cmmnHistoryService;
         this.runtimeService = runtimeService;
-        this.kafkaInboundChannelAdapter = kafkaInboundChannelAdapter;
+        this.reviewEventCounter = reviewEventCounter;
     }
 
     @GetMapping("/dashboard")
@@ -31,7 +31,7 @@ public class DashboardController {
         long caseInstanceCount = cmmnRuntimeService.createCaseInstanceQuery().count();
         long processInstanceCount = runtimeService.createProcessInstanceQuery().count();
         long taskCount = cmmnHistoryService.createHistoricTaskInstanceQuery().count();
-        long reviewEventCount = kafkaInboundChannelAdapter.getEventCount();
+        long reviewEventCount = reviewEventCounter.getEventCount();
 
         return new DashboardData(caseInstanceCount, processInstanceCount, taskCount, reviewEventCount);
     }

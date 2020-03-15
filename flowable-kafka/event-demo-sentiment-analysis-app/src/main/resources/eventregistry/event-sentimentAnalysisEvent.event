@@ -1,0 +1,15 @@
+{
+  "correlationParameters": [],
+  "payload": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "comment",
+      "type": "string"
+    }
+  ],
+  "name": "Sentiment Analysis Event",
+  "key": "sentimentAnalysisEvent"
+}

@@ -1,0 +1,28 @@
+{
+  "correlationParameters": [
+    {
+      "name": "userId",
+      "type": "string"
+    }
+  ],
+  "payload": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "stationId",
+      "type": "integer"
+    },
+    {
+      "name": "rating",
+      "type": "integer"
+    },
+    {
+      "name": "comment",
+      "type": "string"
+    }
+  ],
+  "name": "Review Event",
+  "key": "reviewEvent"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "kafka",
+  "channelType": "outbound",
+  "serializerType": "json",
+  "topic": "sentiment-analysis",
+  "name": "Sentiment Analysis Outbound Channel",
+  "key": "sentimentAnalysisOutboundChannel"
+}
