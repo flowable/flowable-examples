@@ -10,7 +10,7 @@
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "@types/react-router-dom": "^5.1.1",
-    "apexcharts": "^3.10.1",
+    "apexcharts": "^3.24.0",
     "classnames": "^2.2.6",
     "faker": "^4.1.0",
     "keycode": "^2.2.0",
