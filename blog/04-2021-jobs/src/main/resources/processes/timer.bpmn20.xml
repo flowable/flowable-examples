@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:design="http://flowable.org/design" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://flowable.org/test" design:palette="flowable-process-palette">
+    <process id="timerProcess" isExecutable="true">
+        <extensionElements>
+            <design:stencilid><![CDATA[BPMNDiagram]]></design:stencilid>
+            <design:language><![CDATA[English]]></design:language>
+            <design:creationdate><![CDATA[2021-03-02T12:05:30.511Z]]></design:creationdate>
+            <design:modificationdate><![CDATA[2021-03-02T12:06:33.451Z]]></design:modificationdate>
+        </extensionElements>
+        <startEvent id="startNoneEvent1" >
+            <extensionElements>
+                <flowable:work-form-field-validation><![CDATA[false]]></flowable:work-form-field-validation>
+                <design:stencilid><![CDATA[StartNoneEvent]]></design:stencilid>
+            </extensionElements>
+        </startEvent>
+        <userTask id="formTask1" name="User task">
+            <extensionElements>
+                <flowable:task-candidates-type><![CDATA[all]]></flowable:task-candidates-type>
+                <design:stencilid><![CDATA[FormTask]]></design:stencilid>
+                <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+            </extensionElements>
+        </userTask>
+        <endEvent id="endNoneEvent1">
+            <extensionElements>
+                <design:stencilid><![CDATA[EndNoneEvent]]></design:stencilid>
+            </extensionElements>
+        </endEvent>
+        <sequenceFlow id="sequenceFlow1" sourceRef="formTask1" targetRef="endNoneEvent1">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+        <sequenceFlow id="sequenceFlow2" sourceRef="startNoneEvent1" targetRef="formTask1">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+        <userTask id="formTask2" name="Escalated" >
+            <extensionElements>
+                <flowable:task-candidates-type><![CDATA[all]]></flowable:task-candidates-type>
+                <design:stencilid><![CDATA[FormTask]]></design:stencilid>
+                <design:stencilsuperid><![CDATA[Task]]></design:stencilsuperid>
+            </extensionElements>
+        </userTask>
+        <endEvent id="endNoneEvent2">
+            <extensionElements>
+                <design:stencilid><![CDATA[EndNoneEvent]]></design:stencilid>
+            </extensionElements>
+        </endEvent>
+        <sequenceFlow id="sequenceFlow3" sourceRef="formTask2" targetRef="endNoneEvent2">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+        <boundaryEvent id="intermediateTimerEventBoundary1" attachedToRef="formTask1" cancelActivity="true">
+            <extensionElements>
+                <design:stencilid><![CDATA[IntermediateTimerEventBoundary]]></design:stencilid>
+            </extensionElements>
+            <timerEventDefinition>
+                <timeDate>${timerDate}</timeDate>
+            </timerEventDefinition>
+        </boundaryEvent>
+        <sequenceFlow id="sequenceFlow4" sourceRef="intermediateTimerEventBoundary1" targetRef="formTask2">
+            <extensionElements>
+                <design:stencilid><![CDATA[SequenceFlow]]></design:stencilid>
+            </extensionElements>
+        </sequenceFlow>
+    </process>
+</definitions>
