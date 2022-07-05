@@ -65,7 +65,7 @@ public class Rule {
         }
         stringBuilder.append(" -> ");
         stringBuilder.append(outcome);
-        stringBuilder.append(" (with probablity ");
+        stringBuilder.append(" (with probability ");
         stringBuilder.append(String.format("%.2f", probability * 100) + "%");
         stringBuilder.append(")");
         return stringBuilder.toString();
