@@ -15,7 +15,7 @@
     "faker": "^4.1.0",
     "keycode": "^2.2.0",
     "mapbox-gl": "^1.4.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node-sass": "^4.13.0",
     "react": "^16.10.2",
     "react-apexcharts": "^1.3.3",
